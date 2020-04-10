@@ -11,7 +11,7 @@ def solve(board, log_list=None):
     row, col = pos
     for num in range(1, 10):
         if _num_valid_at_pos(board, pos, num):
-            _log(log_list, 'PUT', pos, num)
+            if log_list: _log(log_list, 'PUT', pos, num)
             board[row][col] = num
             solution = solve(board)
 
@@ -20,9 +20,9 @@ def solve(board, log_list=None):
             else:
                 board[row][col] = 0
         else:
-            _log(log_list, 'INVALID', pos, num)
+            if log_list: _log(log_list, 'INVALID', pos, num)
     else:
-        _log(log_list, 'REMOVE', pos, None)
+        if log_list: _log(log_list, 'REMOVE', pos, None)
         return None
 
 def _log(log_list, action, pos, num):
@@ -63,7 +63,7 @@ def _num_valid_at_pos(board, pos, num):
             if row == pos[0] or col == pos[1]: 
                 relevant = True
             # Same 3x3 field
-            if (row // 3 == pos[0] // 3) or (col // 3 == pos[1] // 3):
+            if (row // 3 == pos[0] // 3) and (col // 3 == pos[1] // 3):
                 relevant = True
 
             if relevant and num == board[row][col]:
