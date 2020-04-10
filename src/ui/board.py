@@ -33,9 +33,11 @@ class Board:
     
     def update(self):
         if self.running_sim:
-            for row in range(9):
-                for col in range(9):
-                    self.cells[row][col].set_value(self.solution_data[row][col])
+            try:
+                func = next(self.simulation_gen)
+                func()
+            except StopIteration:
+                self.running_sim = False
 
     def render(self):
         for row in self.cells:
@@ -111,11 +113,27 @@ class Board:
         Sets flags to run simulation and creates a simulation generator of the current board
         '''
         self.running_sim = True
+        self.simulation_gen = self._gen_simulation()
 
     def _gen_simulation(self):
         '''
         Solves the board at its current stage, then yields a function to call
         that shows the step the solver took to the user
         '''
-        pass
+        solving_log = []
+        solver.solve(copy.deepcopy(self.data), log_list=solving_log)
+        for log_entry in solving_log:
+            def func():
+                row = log_entry['pos'][0]
+                col = log_entry['pos'][1]
+                if log_entry['action'] == 'PUT':
+                    self.set_value(row, col, log_entry['num'])
+                    self.cells[row][col].set_color(color.GREEN)
+                elif log_entry['action'] == 'INVALID':
+                    self.set_value(row, col, log_entry['num'])
+                    self.cells[row][col].set_color(color.BLACK)
+                elif log_entry['action'] == 'REMOVE':
+                    self.set_value(row, col, 0)
+                    self.cells[row][col].set_color(color.RED)
+            yield func
         

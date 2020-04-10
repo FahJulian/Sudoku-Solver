@@ -11,18 +11,18 @@ def solve(board, log_list=None):
     row, col = pos
     for num in range(1, 10):
         if _num_valid_at_pos(board, pos, num):
-            if log_list: _log(log_list, 'PUT', pos, num)
+            if log_list != None: _log(log_list, 'PUT', pos, num)
             board[row][col] = num
-            solution = solve(board)
+            solution = solve(board, log_list)
 
             if solution:
                 return solution
             else:
                 board[row][col] = 0
         else:
-            if log_list: _log(log_list, 'INVALID', pos, num)
+            if log_list != None: _log(log_list, 'INVALID', pos, num)
     else:
-        if log_list: _log(log_list, 'REMOVE', pos, None)
+        if log_list != None: _log(log_list, 'REMOVE', pos, None)
         return None
 
 def _log(log_list, action, pos, num):
