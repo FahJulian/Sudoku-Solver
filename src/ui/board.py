@@ -33,7 +33,9 @@ class Board:
     
     def update(self):
         if self.running_sim:
-            pass
+            for row in range(9):
+                for col in range(9):
+                    self.cells[row][col].set_value(self.solution_data[row][col])
 
     def render(self):
         for row in self.cells:
@@ -79,13 +81,6 @@ class Board:
                 if c == cell:
                     return self.solution_data[row][col] == num
 
-    def get_raw_data(self):
-        '''
-        Get the values that are currently set on the board
-        :return: int[][]
-        '''
-        pass
-
     def select_cell_at(self, pos):
         '''
         Selects the cell at the given position, if there is a cell there
@@ -115,7 +110,7 @@ class Board:
         '''
         Sets flags to run simulation and creates a simulation generator of the current board
         '''
-        pass
+        self.running_sim = True
 
     def _gen_simulation(self):
         '''
