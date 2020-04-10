@@ -1,10 +1,8 @@
-def solve(board, log_list=None):
-    '''
-    Solves a sudoku board using backtracking
-    :param board: int[][]
-    :param log_list: Pointer to a list to append logging entries to
-    :return: int[][] or None
-    '''
+from typing import List, Optional
+
+
+def solve(board: List[List[int]], log_list: Optional[List] = None) -> Optional[List[List[int]]]:
+    ''' Solves a sudoku board using backtracking '''
     pos = _next_empty_pos(board)
     if not pos: return board    # No empty pos -> Board is solved
 
@@ -25,7 +23,7 @@ def solve(board, log_list=None):
         if log_list != None: _log(log_list, 'REMOVE', pos, None)
         return None
 
-def _log(log_list, action, pos, num):
+def _log(log_list, action: str, pos: List[int], num: int) -> None:
     '''
     Appends a dictionary that representates a log entry to the log list
     '''
@@ -35,11 +33,7 @@ def _log(log_list, action, pos, num):
         'num': num,
     })
 
-def _next_empty_pos(board):
-    '''
-    :param board: int[][]
-    :return: int[] or None
-    '''
+def _next_empty_pos(board: List[int]) -> Optional[List[int]]:
     for row in range(9):
         for col in range(9):
             if board[row][col] == 0: 
@@ -47,13 +41,7 @@ def _next_empty_pos(board):
     else:
         return None
 
-def _num_valid_at_pos(board, pos, num):
-    '''
-    :param board: int[][]
-    :param pos: int[]
-    :param num: int
-    :return: bool
-    '''
+def _num_valid_at_pos(board: List[List[int]], pos: List[int], num: int) -> bool:
     for row in range(9):
         for col in range(9):
             if (row, col) == pos: continue

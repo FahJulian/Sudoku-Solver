@@ -1,4 +1,5 @@
 import pygame
+from typing import List
 
 from utils import color
 
@@ -6,7 +7,7 @@ CELL_SIZE = 50
 BORDER_WIDTH = 2
 
 class Cell:
-    def __init__(self, surface, pos, value):
+    def __init__(self, surface: pygame.display, pos: List[int], value: int):
         self.surface = surface
         self.pos = pos
         self.value = value
@@ -21,13 +22,13 @@ class Cell:
             pygame.Rect((x, y), (BORDER_WIDTH, CELL_SIZE))
         ]
 
-    def set_value(self, value):
+    def set_value(self, value:int) -> None:
         self.value = value
 
-    def set_provisional_value(self, value):
+    def set_provisional_value(self, value: int) -> None:
         self.provisional_value = value
 
-    def render(self):
+    def render(self) -> None:
         if self.value != 0:
             text = pygame.font.Font(None, 50).render(str(self.value), 1, color.BLACK)
             text_pos = text.get_rect()
@@ -43,5 +44,5 @@ class Cell:
         for line in self.outline:
             pygame.draw.rect(self.surface, self.color, line)
 
-    def set_color(self, color):
+    def set_color(self, color: List[int]) -> None:
         self.color = color
